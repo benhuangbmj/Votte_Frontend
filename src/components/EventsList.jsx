@@ -11,7 +11,9 @@ function EventsList() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        console.log("Fetching events from the backend...");
         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/events/all-events`);
+        console.log("Events fetched from the backend:", response.data.events);
         setEvents(response.data.events);
       } catch (err) {
         console.error('Error fetching events:', err);
@@ -20,6 +22,7 @@ function EventsList() {
         setLoading(false);
       }
     };
+
     fetchEvents();
   }, []);
 
