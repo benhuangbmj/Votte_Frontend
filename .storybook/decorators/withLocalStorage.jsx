@@ -6,7 +6,6 @@ export default function withLocalStorage(
   { args: { localStorageMock } }
 ) {
   useEffect(() => {
-    console.log("local storage changes!");
     if (typeof localStorageMock === "object") {
       mockLocalStorage(localStorageMock);
     }
