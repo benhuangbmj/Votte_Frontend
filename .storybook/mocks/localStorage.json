@@ -1,5 +1,6 @@
 {
   "user": {
     "email": "admin2@example.com"
-  }
+  },
+  "userEmail": "admin2@example.com"
 }
