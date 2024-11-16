@@ -3,8 +3,10 @@ import "/src/index.css";
 import localStorageMock from "./mocks/localStorage.json";
 import { withRouter } from "storybook-addon-remix-react-router";
 import withLocalStorage from "./decorators/withLocalStorage";
+import { initialize, mswLoader } from "msw-storybook-addon";
 
 localStorage.clear();
+initialize();
 
 const preview = {
   parameters: {
@@ -20,6 +22,7 @@ const preview = {
     localStorageMock,
   },
   decorators: [withRouter, withLocalStorage],
+  loaders: [mswLoader],
 };
 
 export default preview;
