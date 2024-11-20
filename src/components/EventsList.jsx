@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function EventsList() {
   const [events, setEvents] = useState([]);
@@ -11,11 +11,16 @@ function EventsList() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/events/all-events`);
+        console.log("Fetching events from the backend...");
+        console.log("VITE_BASE_URL:", import.meta.env.VITE_BASE_URL);
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/api/events/all-events`,
+        );
+        console.log("Events fetched from the backend:", response.data.events);
         setEvents(response.data.events);
       } catch (err) {
-        console.error('Error fetching events:', err);
-        setError('Failed to load events');
+        console.error("Error fetching events:", err);
+        setError("Failed to load events");
       } finally {
         setLoading(false);
       }
@@ -31,21 +36,25 @@ function EventsList() {
   };
 
   return (
-    <div className="p-10" style={{ backgroundColor: '#030C18' }}>
-      <h2 className="text-3xl font-bold text-center text-white mb-6">Upcoming Events</h2>
+    <div className="p-10" style={{ backgroundColor: "#030C18" }}>
+      <h2 className="text-3xl font-bold text-center text-white mb-6">
+        Upcoming Events
+      </h2>
       <div
         className="events-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto"
-        style={{ maxWidth: '75%', paddingRight: '1rem' }}
+        style={{ maxWidth: "75%", paddingRight: "1rem" }}
       >
         {events.map((event) => (
           <div
             key={event.id}
             onClick={() => handleEventClick(event.id)}
             className="shadow-lg rounded-sm p-4 cursor-pointer"
-            style={{ backgroundColor: '#FFE4CE' }}
+            style={{ backgroundColor: "#FFE4CE" }}
           >
             <h3 className="text-xl font-bold text-black">{event.title}</h3>
-            <p className="text-gray-500 text-xs mt-0">{new Date(event.event_date).toLocaleDateString()}</p>
+            <p className="text-gray-500 text-xs mt-0">
+              {new Date(event.event_date).toLocaleDateString()}
+            </p>
           </div>
         ))}
       </div>
