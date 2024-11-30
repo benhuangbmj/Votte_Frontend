@@ -5,7 +5,7 @@ import Landing from './pages/Landing';
 import Home from './pages/Home';
 import AdminPage from './pages/Admin';
 import EventScreen from './pages/EventScreen';
-import EventsList from './components/EventsList';
+import IdeasForEvent from './components/admin/IdeasForEvent'; // Admin Event Screen
 import { checkAdminStatus } from './api/API';
 
 const getUserEmail = () => {
@@ -40,15 +40,27 @@ function App() {
     <GoogleOAuthProvider clientId={`${import.meta.env.VITE_GOOGLE_CLIENT_ID}`}>
       <Router>
         <Routes>
+          {/* Landing page */}
           <Route path="/" element={<Landing />} />
+
+          {/* Regular user routes */}
           <Route path="/home" element={<Home />} />
-          <Route path="/events" element={<EventsList />} />
           <Route path="/event/:eventId" element={<EventScreen />} />
+
+          {/* Admin routes */}
           <Route
             path="/admin"
             element={
               <RequireAdmin userEmail={userEmail}>
                 <AdminPage />
+              </RequireAdmin>
+            }
+          />
+          <Route
+            path="/admin/event/:eventId"
+            element={
+              <RequireAdmin userEmail={userEmail}>
+                <IdeasForEvent userEmail={userEmail} />
               </RequireAdmin>
             }
           />

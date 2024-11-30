@@ -52,17 +52,10 @@ export const editIdea = async (id, idea, description, technologies) => {
   }
 };
 
-// Function to delete an idea (only if user is an admin)
 export const deleteIdea = async (id, email) => {
-  const isAdmin = await checkAdminStatus(email);
-  if (!isAdmin) {
-    throw new Error('Unauthorized access: User is not an admin');
-  }
   try {
-    const response = await axios({
-      method: 'delete',
-      url: `${import.meta.env.VITE_BASE_URL}/api/ideas/delete-idea/${id}`,
-      data: { email },
+    const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/ideas/delete-idea/${id}`, {
+      data: { email }, // Pass the email in the request body
     });
     return response.data;
   } catch (error) {
@@ -141,6 +134,24 @@ export const deleteEvent = async (id) => {
     throw error;
   }
 };
+
+export const getIdeasForEvent = async (eventId) => {
+  if (!eventId) {
+    console.error("Event ID is missing");
+    throw new Error("Event ID is required");
+  }
+
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/api/events/${eventId}/ideas`
+    );
+    return response.data.ideas;
+  } catch (error) {
+    console.error("Error fetching ideas for event:", error);
+    throw error;
+  }
+};
+
 
 export const getUserIdeas = async (email) => {
   try {
